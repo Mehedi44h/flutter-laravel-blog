@@ -10,10 +10,10 @@ class User {
   factory User.formJson(Map<String, dynamic> json) {
     return User(
       id: json['user']['id'],
-      name: json['user']['id'],
-      image: json['user']['id'],
-      email: json['user']['id'],
-      token: json['user']['id'],
+      name: json['user']['name'],
+      image: json['user']['image'],
+      email: json['user']['email'],
+      token: json['token'],
     );
   }
 }

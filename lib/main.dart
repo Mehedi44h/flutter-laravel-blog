@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterlv/homepage.dart';
 import 'package:flutterlv/screens/loading.dart';
@@ -15,11 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'flutter laravel',
       theme: ThemeData(
-      
         primarySwatch: Colors.blue,
       ),
-      home:  Loading(),
+      debugShowCheckedModeBanner: false,
+      home: Loading(),
     );
   }
 }
-
