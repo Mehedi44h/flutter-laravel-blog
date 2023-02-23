@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutterlv/constant.dart';
-import 'package:flutterlv/homepage.dart';
+import 'package:flutterlv/screens/homepage.dart';
 import 'package:flutterlv/models/api_response.dart';
 import 'package:flutterlv/models/user.dart';
+// import 'package:flutterlv/screens/home.dart';
 import 'package:flutterlv/screens/register.dart';
 import 'package:flutterlv/services/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -115,7 +116,7 @@ class _LoginState extends State<Login> {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => Register()),
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
                         (route) => false);
                   },
                   child: Text(
