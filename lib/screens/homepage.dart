@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (context) => postForm(),
+                builder: (context) => PostForm(),
               ),
               (route) => false);
         },
