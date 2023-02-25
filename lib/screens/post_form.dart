@@ -1,6 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutterlv/constant.dart';
+import 'package:flutterlv/models/api_response.dart';
+import 'package:flutterlv/screens/login.dart';
+import 'package:flutterlv/services/post_service.dart';
+import 'package:flutterlv/services/user_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostForm extends StatefulWidget {
@@ -26,6 +31,29 @@ class _PostFormState extends State<PostForm> {
     }
   }
 
+  void _createPost() async {
+    String? image = _imageFile == null ? null : getStringImage(_imageFile);
+    ApiResponse response = await createPost(txtControllerBody.text, image);
+    if (response.error == null) {
+      Navigator.of(context).pop();
+    } else if (response.error == unauthrized) {
+      logout().then((value) => {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => Login()),
+                (route) => false)
+          });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$response.error'),
+        ),
+      );
+      setState(() {
+        _loading = !_loading;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +66,16 @@ class _PostFormState extends State<PostForm> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 200,
+            decoration: BoxDecoration(
+              image: _imageFile == null
+                  ? null
+                  : DecorationImage(
+                      image: FileImage(
+                        _imageFile ?? File(''),
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+            ),
             child: Center(
               child: IconButton(
                 onPressed: () {
@@ -80,8 +118,9 @@ class _PostFormState extends State<PostForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   setState(() {
-                    _loading =! _loading;
+                    _loading = !_loading;
                   });
+                  _createPost();
                 }
               },
               child: Text(
@@ -92,9 +131,6 @@ class _PostFormState extends State<PostForm> {
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.blue),
-                // backgroundColor:Colors.blue;
-                // MaterialStateColor.resolveWith((states) => Colors.blue),
-
                 padding: MaterialStateProperty.resolveWith(
                   (states) => EdgeInsets.symmetric(vertical: 15),
                 ),

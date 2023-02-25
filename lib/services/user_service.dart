@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -111,4 +112,9 @@ Future<int> getUserId() async {
 Future<bool> logout() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   return await pref.remove('token');
+}
+
+String? getStringImage(File? file) {
+  if (file == null) return null;
+  return base64Encode(file.readAsBytesSync());
 }
